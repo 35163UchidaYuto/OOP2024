@@ -10,7 +10,7 @@ namespace SalesCounter {
     internal class Program {
         public static void Main(string[] args) {
             SalesCounter sales = new SalesCounter(@"date\Sales.csv");
-            Dictionary<string, int> amountPerStore = sales.GetStoreSales();
+            IDictionary<string, int> amountPerStore = sales.GetStoreSales();
             foreach (KeyValuePair<string, int> obj in amountPerStore) {
                 Console.WriteLine("{0}{1}", obj.Key, obj.Value);
             }
