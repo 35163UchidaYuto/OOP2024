@@ -13,7 +13,6 @@ namespace Exercise2 {
             } else {
                 //メートルからインチへの対応表を出力
                 PrintMeterToInchList(int.Parse(args[1]), int.Parse(args[2]));
-
             }
         }
         private static void PrintMeterToInchList(int stert, int stop) {
