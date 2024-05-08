@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BallApp {
-    internal class SoccerBall : Obj {
+    internal class Tennisball : Obj {
 
-        public SoccerBall(double xp, double yp)
-            : base(xp , yp, @"Picture\soccer_ball.png") {
+        public Tennisball(double xp, double yp)
+            : base(xp, yp, @"Picture\tennis_ball.png") {
 
-            MoveX = 10; //移動量設定
-            MoveY = 10;
+            MoveX = 5; //移動量設定
+            MoveY = 5;
         }
 
         public override bool Move() {
