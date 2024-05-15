@@ -11,7 +11,7 @@ namespace exercise01 {
 
             // 3.1.1
             Exercise1_1(numbers);
-            Console.WriteLine("-----");
+            Console.WriteLine("");
 
             // 3.1.2
             Exercise1_2(numbers);
@@ -26,15 +26,22 @@ namespace exercise01 {
         }
 
         private static void Exercise1_1(List<int> numbers) {
+            var exists = numbers.Exists(n => n % 8 == 0 ||  n % 9 == 0);
+            Console.WriteLine(exists);
         }
 
         private static void Exercise1_2(List<int> numbers) {
+            numbers.ForEach(n=> Console.WriteLine(n/2.0));
         }
 
         private static void Exercise1_3(List<int> numbers) {
+            numbers.Where(n => 50 <= n);
+            foreach (var item in numbers)
+                Console.WriteLine(item);
         }
 
         private static void Exercise1_4(List<int> numbers) {
+            numbers.Select(n => n*2).ToList().ForEach(n => Console.WriteLine(n));
         }
     }
 }
