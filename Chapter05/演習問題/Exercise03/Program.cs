@@ -8,7 +8,7 @@ namespace Exercise03 {
     internal class Program {
         static void Main(string[] args) {
             var text = "Jackdaws love my big sphinx of quartz";
-
+            #region
             Exercise3_1(text);
             Console.WriteLine("-----");
 
@@ -23,25 +23,29 @@ namespace Exercise03 {
 
             Exercise3_5(text);
         }
+        #endregion
+        private static void Exercise3_1(string text) {
 
-        private static void Exercise3_5(string text) {
-            throw new NotImplementedException();
-        }
-
-        private static void Exercise3_4(string text) {
-            throw new NotImplementedException();
-        }
-
-        private static void Exercise3_3(string text) {
-            throw new NotImplementedException();
+            var spaces = text.Count(c => c == ' ');
+            Console.WriteLine("空白数 :{0}",spaces);
         }
 
         private static void Exercise3_2(string text) {
-            throw new NotImplementedException();
+            var replaces = text.Replace("big", "small");
+            Console.WriteLine(replaces);
         }
 
-        private static void Exercise3_1(string text) {
-            throw new NotImplementedException();
+        private static void Exercise3_3(string text) {
+           int count = text.Split(' ').Length;
+            Console.WriteLine("単語数：{0}", count);
+        }
+
+        private static void Exercise3_4(string text) {
+            
+        }
+
+        private static void Exercise3_5(string text) {
+            ;
         }
     }
 }
