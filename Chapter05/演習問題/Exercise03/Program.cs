@@ -49,12 +49,23 @@ namespace Exercise03 {
 
         private static void Exercise3_5(string text) {
             var array = text.Split(' ').ToArray();
-            StringBuilder sb = new StringBuilder();
-            foreach (var word in array) {
-                sb.Append(word);
-                sb.Append(' ');
+            if (array.Length > 0) {
+                StringBuilder sb = new StringBuilder(array[0]);
+                foreach (var word in array.Skip(1)) {
+                    sb.Append(word);
+                    sb.Append(' ');
+                }
+                Console.WriteLine(sb);
             }
-            Console.WriteLine(sb);
+
         }
+        private static void Exercise3_6(string text) {
+            var array = text.Split(' ',',','-','_').ToArray();
+            foreach (var word in array) {
+                Console.WriteLine(word);
+            }
+        }
+
     }
 }
+
