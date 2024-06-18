@@ -67,22 +67,22 @@ namespace Test02 {
         //問題１　合計値を表示
         //　　　　出力結果【618】
         private static void Exercise01(List<int> numbers) {
-
-
+            var sum = numbers.Sum();
+            Console.WriteLine(sum);
 
         }
 
         //問題２　偶数の最大値を表示
         //　　　　出力結果【94】
         private static void Exercise02(List<int> numbers) {
-
-
+            var max = numbers.Max(n => n); 
+            Console.WriteLine(max);
 
         }
         //問題３　奇数のみを降順に並べて表示（遅延実行とする）
         //　　　　出力結果【91 87 53 35 31 17】
         private static void Exercise03(List<int> numbers) {
-
+            
 
 
         }
@@ -98,7 +98,8 @@ namespace Test02 {
         //問題５　平均年齢を表示
         //　　　　出力結果【30.2才】
         private static void Exercise05(List<Person> persons) {
-            
+            var average = persons.Average(b => b.Age);
+                  Console.WriteLine(average);
 
 
         }
@@ -106,7 +107,9 @@ namespace Test02 {
         //問題６　身長170cm以上の体重平均を表示
         //　　　　出力結果【72.25kg】
         private static void Exercise06(List<Person> persons) {
-
+            var average = persons.Where(b => b.Height>=170)
+                                .Average(b => b.Weight);
+            Console.WriteLine(average);
 
 
         }
@@ -116,10 +119,14 @@ namespace Test02 {
         //　　　　　　　　　沖田宏一 59kg
         //　　　　　　　　　片山伸介 65kg】
         private static void Exercise07(List<Person> persons) {
-        
-        
-        
+            var books2 = persons.Where(b => b.Height <= 70).Average(b => b.Weight); ;
+            foreach (var book in books2) {
+                Console.WriteLine(persons.Name, book.Price, book.Pages);
+            }
         }
+
+
+    }
 
         //問題８　名前に「山」の漢字が含まれている人全て表示
         //　　　　出力結果【山田隆司

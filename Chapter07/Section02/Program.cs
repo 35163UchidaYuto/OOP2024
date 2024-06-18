@@ -16,11 +16,11 @@ namespace Section02 {
             //var s = dict[md];
             // Console.WriteLine(s);
 
-            var lines = File.ReadAllLines("sample.txt");
-            var we = new WordsExtractor(lines);
-            foreach (var word in we.Extract()) {
-                Console.WriteLine(word);
+           // var lines = File.ReadAllLines("sample.txt");
+           // var we = new WordsExtractor(lines);
+         //   foreach (var word in we.Extract()) {
+         //       Console.WriteLine(word);
             }
         }
     }
-}
+
