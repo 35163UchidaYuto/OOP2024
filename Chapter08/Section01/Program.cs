@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,53 +19,18 @@ namespace Section01 {
             var birthday = new DateTime(year, month, day);
             DayOfWeek dayOfWeek = birthday.DayOfWeek;
 
-            Console.WriteLine(birthday.ToString("dddd"));
 
-            switch (dayOfWeek) {
-                case DayOfWeek.Sunday:
-                    Console.WriteLine(birthday + "は日曜日");
-                    break;
-                case DayOfWeek.Monday:
-                    Console.WriteLine(birthday + " は月曜日");
-                    break;
-                case DayOfWeek.Tuesday:
-                    Console.WriteLine(birthday + "は火曜日");
-                    break;
-                case DayOfWeek.Wednesday:
-                    Console.WriteLine(birthday + "は水曜日");
-                    break;
-                case DayOfWeek.Thursday:
-                    Console.WriteLine(birthday + "は木曜日");
-                    break;
-                case DayOfWeek.Friday:
-                    Console.WriteLine(birthday + "は金曜日");
-                    break;
-                case DayOfWeek.Saturday:
-                    Console.WriteLine(birthday + "は土曜日");
-                    break;
-            }
 
-            if (dayOfWeek == DayOfWeek.Sunday) {
-                Console.WriteLine(birthday+"は日曜日");
-            }
-            if (dayOfWeek == DayOfWeek.Monday) {
-                Console.WriteLine(birthday + " は月曜日");
-            }
-            if (dayOfWeek == DayOfWeek.Tuesday) {
-                Console.WriteLine(birthday + "は火曜日");
-            }
-            if (dayOfWeek == DayOfWeek.Wednesday) {
-                Console.WriteLine(birthday + "は水曜日");
-            }
-            if (dayOfWeek == DayOfWeek.Tuesday) {
-                Console.WriteLine(birthday + "は木曜日");
-            }
-            if (dayOfWeek == DayOfWeek.Friday) {
-                Console.WriteLine(birthday + "は金曜日");
-            }
-            if (dayOfWeek == DayOfWeek.Saturday) {
-                Console.WriteLine(birthday + "は土曜日");
-            }
+            //あなたは平成〇〇年〇月〇日〇曜日に生まれました。
+            var culture = new CultureInfo("ja-JP");
+            culture.DateTimeFormat.Calendar = new JapaneseCalendar();
+            var era = culture.DateTimeFormat.Calendar.GetEra(birthday);
+            var eraName = culture.DateTimeFormat.GetEraName (era);
+            Console.WriteLine(birthday.ToString("ggyy年,MM月,dd日,ddddに生まれました",culture));
+            //あなたは生まれてから今日は何日ですか
+            var now = DateTime.Now;
+            TimeSpan diff = now.Date - birthday.Date;
+            Console.WriteLine("私は、生まれてから{0}日間", diff.Days);
         }
     }
 }
