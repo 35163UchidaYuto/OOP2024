@@ -26,11 +26,12 @@ namespace Section01 {
             culture.DateTimeFormat.Calendar = new JapaneseCalendar();
             var era = culture.DateTimeFormat.Calendar.GetEra(birthday);
             var eraName = culture.DateTimeFormat.GetEraName (era);
-            Console.WriteLine(birthday.ToString("ggyy年,MM月,dd日,ddddに生まれました",culture));
-            //あなたは生まれてから今日は何日ですか
-            var now = DateTime.Now;
-            TimeSpan diff = now.Date - birthday.Date;
-            Console.WriteLine("私は、生まれてから{0}日間", diff.Days);
+            var str = birthday.ToString(eraName + "yyyy年,MM月,dd日,dddd", culture);
+            Console.WriteLine(str+ "に生まれました");
+            //あなたは生まれてから今日は何日目ですか
+            var today = DateTime.Today;
+            TimeSpan diff = today - birthday;
+            Console.WriteLine("私は、生まれてから{0}日目です", diff.Days+1);
         }
     }
 }
