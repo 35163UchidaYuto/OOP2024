@@ -25,24 +25,20 @@ namespace Test01 {
                 students.Add(student);
             }
             return students;
+
         }
-
-
-
 
         //メソッドの概要： 
         public IDictionary<string, int> GetPerStudentScore() {
             var dict = new Dictionary<string, int>();
             foreach (var student in _score) {
-                if (dict.ContainsKey(student.Subject))
-                    dict[student.Subject] += student.Score;
+                if (dict.ContainsKey(student.Name))
+                    dict[student.Name] += student.Score;
                 else
-                    dict[student.Subject] = student.Score;
+                    dict[student.Name] = student.Score;
             }
             return dict;
+
         }
-
-
     }
-
 }
