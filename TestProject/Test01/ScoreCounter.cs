@@ -28,21 +28,20 @@ namespace Test01 {
         }
 
 
-    }
 
-    //メソッドの概要： 
-    public IDictionary<string, int> GetPerStudentScore() {
-        var dict = new Dictionary<string, int>();
-        foreach (var student in _score) {
-            if (dict.ContainsKey(student.Name))
-                dict[student.Name] += student.Score;
-            else
-                dict[student.Name] = student.Score;
+
+        //メソッドの概要： 
+        public IDictionary<string, int> GetPerStudentScore() {
+            var dict = new Dictionary<string, int>();
+            foreach (var student in _score) {
+                if (dict.ContainsKey(student.Name))
+                    dict[student.Name] += student.Score;
+                else
+                    dict[student.Name] = student.Score;
+            }
+            return dict;
         }
-        return dict;
+
+
     }
-
-
-
-
 }
