@@ -23,6 +23,7 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            ComboBox cbAuthor;
             label1 = new Label();
             dtpDate = new DateTimePicker();
             label2 = new Label();
@@ -59,6 +60,16 @@
             ((System.ComponentModel.ISupportInitialize)dgvCarReport).BeginInit();
             ssMessageArea.SuspendLayout();
             SuspendLayout();
+            // 
+            // cbAuthor
+            // 
+            cbAuthor.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            cbAuthor.FormattingEnabled = true;
+            cbAuthor.Location = new Point(101, 71);
+            cbAuthor.Name = "cbAuthor";
+            cbAuthor.Size = new Size(302, 33);
+            cbAuthor.TabIndex = 2;
+            cbAuthor.TextChanged += cbAuthor_TextChanged;
             // 
             // label1
             // 
@@ -145,10 +156,12 @@
             // rbOther
             // 
             rbOther.AutoSize = true;
+            rbOther.Checked = true;
             rbOther.Location = new Point(307, 15);
             rbOther.Name = "rbOther";
             rbOther.Size = new Size(56, 19);
             rbOther.TabIndex = 0;
+            rbOther.TabStop = true;
             rbOther.Text = "その他";
             rbOther.UseVisualStyleBackColor = true;
             // 
@@ -339,6 +352,7 @@
             ssMessageArea.Location = new Point(0, 519);
             ssMessageArea.Name = "ssMessageArea";
             ssMessageArea.Size = new Size(785, 22);
+            ssMessageArea.SizingGrip = false;
             ssMessageArea.TabIndex = 8;
             ssMessageArea.Text = "statusStrip1";
             // 
@@ -352,16 +366,6 @@
             tslbMessage.Name = "tslbMessage";
             tslbMessage.Size = new Size(118, 17);
             tslbMessage.Text = "toolStripStatusLabel1";
-            // 
-            // cbAuthor
-            // 
-            cbAuthor.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            cbAuthor.FormattingEnabled = true;
-            cbAuthor.Location = new Point(101, 71);
-            cbAuthor.Name = "cbAuthor";
-            cbAuthor.Size = new Size(302, 33);
-            cbAuthor.TabIndex = 2;
-            cbAuthor.TextChanged += cbAuthor_TextChanged;
             // 
             // Form1
             // 
@@ -390,6 +394,8 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "Form1";
             Text = "試乗レポート管理システム";
             Load += Form1_Load;

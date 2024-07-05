@@ -150,7 +150,11 @@ namespace CarReportSystem {
             if ((dgvCarReport.CurrentRow == null)
                  || (!dgvCarReport.CurrentRow.Selected)) return;
 
-            listCarReports[dgvCarReport.CurrentRow.Index].Date = dtpDate.Value;
+            if (cbAuthor.Text == "" || cbCarName.Text == "") {
+                tslbMessage.Text = "‹L˜^ŽÒ,‚Ü‚½‚ÍŽÔ–¼‚ª–¢“ü—Í‚Å‚·";
+                return;
+            }
+                listCarReports[dgvCarReport.CurrentRow.Index].Date = dtpDate.Value;
             listCarReports[dgvCarReport.CurrentRow.Index].Author = cbAuthor.Text;
             listCarReports[dgvCarReport.CurrentRow.Index].Maker = GetRadioButtonMaker();
             listCarReports[dgvCarReport.CurrentRow.Index].CarName = cbCarName.Text;
