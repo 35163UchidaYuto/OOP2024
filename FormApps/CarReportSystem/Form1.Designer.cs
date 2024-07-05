@@ -26,7 +26,6 @@
             label1 = new Label();
             dtpDate = new DateTimePicker();
             label2 = new Label();
-            cbAuthor = new ComboBox();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
@@ -51,9 +50,14 @@
             btReportSave = new Button();
             btReportOpen = new Button();
             ofdPicFileOpen = new OpenFileDialog();
+            ssMessageArea = new StatusStrip();
+            tslbMssaage = new ToolStripStatusLabel();
+            tslbMessage = new ToolStripStatusLabel();
+            cbAuthor = new ComboBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarReport).BeginInit();
+            ssMessageArea.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -83,15 +87,6 @@
             label2.Size = new Size(69, 25);
             label2.TabIndex = 0;
             label2.Text = "記録者";
-            // 
-            // cbAuthor
-            // 
-            cbAuthor.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            cbAuthor.FormattingEnabled = true;
-            cbAuthor.Location = new Point(101, 71);
-            cbAuthor.Name = "cbAuthor";
-            cbAuthor.Size = new Size(302, 33);
-            cbAuthor.TabIndex = 2;
             // 
             // label3
             // 
@@ -131,6 +126,7 @@
             cbCarName.Name = "cbCarName";
             cbCarName.Size = new Size(302, 33);
             cbCarName.TabIndex = 2;
+            cbCarName.TextChanged += cbCarName_TextChanged;
             // 
             // groupBox1
             // 
@@ -301,6 +297,7 @@
             // 
             dgvCarReport.AllowUserToAddRows = false;
             dgvCarReport.AllowUserToDeleteRows = false;
+            dgvCarReport.AllowUserToResizeRows = false;
             dgvCarReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCarReport.Location = new Point(97, 329);
             dgvCarReport.MultiSelect = false;
@@ -335,11 +332,42 @@
             // 
             ofdPicFileOpen.FileName = "openFileDialog1";
             // 
+            // ssMessageArea
+            // 
+            ssMessageArea.Items.AddRange(new ToolStripItem[] { tslbMssaage, tslbMessage });
+            ssMessageArea.Location = new Point(0, 519);
+            ssMessageArea.Name = "ssMessageArea";
+            ssMessageArea.Size = new Size(785, 22);
+            ssMessageArea.TabIndex = 8;
+            ssMessageArea.Text = "statusStrip1";
+            // 
+            // tslbMssaage
+            // 
+            tslbMssaage.Name = "tslbMssaage";
+            tslbMssaage.Size = new Size(0, 17);
+            // 
+            // tslbMessage
+            // 
+            tslbMessage.Name = "tslbMessage";
+            tslbMessage.Size = new Size(118, 17);
+            tslbMessage.Text = "toolStripStatusLabel1";
+            // 
+            // cbAuthor
+            // 
+            cbAuthor.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            cbAuthor.FormattingEnabled = true;
+            cbAuthor.Location = new Point(101, 71);
+            cbAuthor.Name = "cbAuthor";
+            cbAuthor.Size = new Size(302, 33);
+            cbAuthor.TabIndex = 2;
+            cbAuthor.TextChanged += cbAuthor_TextChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(780, 491);
+            ClientSize = new Size(785, 541);
+            Controls.Add(ssMessageArea);
             Controls.Add(dgvCarReport);
             Controls.Add(pbPicture);
             Controls.Add(btPicDelete);
@@ -368,6 +396,8 @@
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbPicture).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarReport).EndInit();
+            ssMessageArea.ResumeLayout(false);
+            ssMessageArea.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -402,5 +432,8 @@
         private Button btReportSave;
         private Button btReportOpen;
         private OpenFileDialog ofdPicFileOpen;
+        private StatusStrip ssMessageArea;
+        private ToolStripStatusLabel tslbMssaage;
+        private ToolStripStatusLabel tslbMessage;
     }
 }

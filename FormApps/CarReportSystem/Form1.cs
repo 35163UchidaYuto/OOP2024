@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Metrics;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
@@ -14,6 +15,12 @@ namespace CarReportSystem {
         }
 
         private void btAddReport_Click(object sender, EventArgs e) {
+            //エラーメッセージ表示
+            if (cbAuthor.Text == "" || cbCarName.Text == "") {
+                tslbMessage.Text = "記録者,または車名が未入力です";
+                return;
+            }
+
             CarReport carReport = new CarReport {
                 Date = dtpDate.Value,
                 Author = cbAuthor.Text,
@@ -24,8 +31,12 @@ namespace CarReportSystem {
             };
             listCarReports.Add(carReport);
 
-        }
+            setCbAutor(cbAuthor.Text);
 
+            dgvCarReport.ClearSelection();//セレクションを外す
+            rbAllCler();//入力項目をクリア
+
+        }
         //選択されているメーカー名を列挙型で返す
         private CarReport.MakerGroup GetRadioButtonMaker() {
             if (rbToyota.Checked)
@@ -43,10 +54,21 @@ namespace CarReportSystem {
 
             return CarReport.MakerGroup.その他;
         }
+        //記録者の履歴をコンボボックスへ登録(重複なし)
+        private void setCbAutor(string author) {
+            if (!cbAuthor.Items.Contains(author))
+                cbAuthor.Items.Add(cbAuthor.Text);
+        }
+        //車名の履歴をコンボボックスへ登録
+        private void setCbCarName(string carName) {
+            if (!cbCarName.Items.Contains(carName))
+                cbCarName.Items.Add(cbCarName.Text);
+        }
         //指定したメーカーのラジオボタンをセット
         private void setRadioButtonMaker(CarReport.MakerGroup targetMaker) {
 
             switch (targetMaker) {
+
                 case CarReport.MakerGroup.トヨタ:
                     rbToyota.Checked = true;
                     break;
@@ -67,7 +89,15 @@ namespace CarReportSystem {
                     break;
             }
         }
-
+        //  ラジオボタンリセット
+        private void rbAllCler() {
+            rbToyota.Checked = false;
+            rbNissan.Checked = false;
+            rbHonda.Checked = false;
+            rbSubaru.Checked = false;
+            rbImport.Checked = false;
+            rbOther.Checked = false;
+        }
 
         private void btPicOpen_Click(object sender, EventArgs e) {
             if (ofdPicFileOpen.ShowDialog() == DialogResult.OK)
@@ -95,17 +125,44 @@ namespace CarReportSystem {
 
             pbPicture.Image = (Image)dgvCarReport.CurrentRow.Cells["Picture"].Value;
         }
-
+        //削除ボタン
         private void btDeleteReport_Click(object sender, EventArgs e) {
+            if(dgvCarReport.CurrentRow == null) return;
             listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
+            ImputItemsAllClear();
+            rbAllCler();
+
+        }
+        //入力項目をクリア
+        private void ImputItemsAllClear() {
+            dtpDate.Value = DateTime.Today;
+            cbAuthor.Text = null;
+            setRadioButtonMaker(CarReport.MakerGroup.なし);
+            cbCarName.Text = null;
+            tbReport.Text = null;
+            pbPicture.Image = null;
         }
 
+        //修正ボタン
         private void btModifyReport_Click(object sender, EventArgs e) {
+            if (dgvCarReport.CurrentRow == null) return;
 
-
-
+            listCarReports[dgvCarReport.CurrentRow.Index].Date = dtpDate.Value;
+            listCarReports[dgvCarReport.CurrentRow.Index].Author = cbAuthor.Text;
+            listCarReports[dgvCarReport.CurrentRow.Index].Maker = GetRadioButtonMaker();
+            listCarReports[dgvCarReport.CurrentRow.Index].CarName = cbCarName.Text;
+            listCarReports[dgvCarReport.CurrentRow.Index].CarName = tbReport.Text;
+            listCarReports[dgvCarReport.CurrentRow.Index].Picture = pbPicture.Image;
 
             dgvCarReport.Refresh();//データグリッドビューの更新
+        }
+        //記録者のテキストが編集されたら
+        private void cbAuthor_TextChanged(object sender, EventArgs e) {
+            tslbMessage.Text = "";
+        }
+
+        private void cbCarName_TextChanged(object sender, EventArgs e) {
+            tslbMessage.Text = "";
         }
     }
 }
