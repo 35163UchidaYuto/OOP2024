@@ -257,9 +257,8 @@ namespace CarReportSystem {
             ReportSaveFile();//ファイルセーブ処理
         }
 
-        private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
-            DialogResult result = MessageBox.Show("終了しますか","",MessageBoxButtons.YesNo);
-            if (result == System.Windows.Forms.DialogResult.Yes) {
+        private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {        
+            if (MessageBox.Show("終了しますか", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 Application.Exit();
             } 
             
