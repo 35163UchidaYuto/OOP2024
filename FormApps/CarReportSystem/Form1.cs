@@ -308,5 +308,11 @@ namespace CarReportSystem {
                 MessageBox.Show("設定ファイル読み込みえエラー");
             }
         }
+
+        private void このアプリについてToolStripMenuItem_Click(object sender, EventArgs e) {
+            var fmversion = new fmVersion();
+            fmversion.ShowDialog();
+        }
+      
     }
 }
