@@ -28,9 +28,9 @@ namespace Exercise {
 
         private static void Exercise1_1(string outfile) {
             var employee = new Employee {
-                Id = 1,
-                Name = "Test",
-                HireDate = DateTime.Now,
+                Id = 123,
+                Name = "出井　秀行",
+                HireDate = new DateTime(2001, 5, 10)
             };
 
             using (var writer = XmlWriter.Create("employee.xml")) {
@@ -46,6 +46,25 @@ namespace Exercise {
         }
 
         private static void Exercise1_2(string outfile) {
+            var emps = new Employee[] {
+                new Employee {
+                    Id = 123,
+                    Name = "出井　秀行",
+                    HireDate = new DateTime(2001,5,10)
+                },
+
+                new Employee {
+                    Id = 123,
+                    Name = "大橋 孝仁",
+                    HireDate = new DateTime(2004,12,1)
+                },
+            };
+
+            using (var writer = XmlWriter.Create("emps.xml")) {
+                var serializer = new XmlSerializer(emps.GetType());
+                serializer.Serialize(writer, emps);
+            }
+
 
         }
 
