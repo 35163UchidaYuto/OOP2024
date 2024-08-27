@@ -16,8 +16,8 @@ namespace Section02 {
                 new XElement("birth", "1888-12-26"),
                 new XElement("death", "1948-03-06"),
                 new XElement("masterpieces",
-                new XElement("title", "恩讐の彼方に"),
-                new XElement("title", "真珠夫人")
+                 new XElement("title", "恩讐の彼方に"),
+                  new XElement("title", "真珠夫人")
                 )
               );
             var xdoc = XDocument.Load("novelists.xml");

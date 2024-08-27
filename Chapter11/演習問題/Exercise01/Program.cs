@@ -57,23 +57,40 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_4(string file, string newfile) {
-            var element = new XElement("ballSport",
-                          new XElement("name", "サッカー", new XAttribute("kanji", "蹴球")),
-                          new XElement("teammembers", "11"),
-                          new XElement("firstplayed", "1863")
-                                       );
+            List<XElement> xElements = new List<XElement>();
+
             var xdoc = XDocument.Load(file);
-            xdoc.Root.Add(element);
+            string name, kanji, teammembers, firstplayed;
+            int nextFlag;
 
-            foreach (var xballSport in xdoc.Root.Elements()) {
-                var xname = xballSport.Element("name");
-                var xteammembers = xballSport.Element("teammembers");
-                var xfirstplayed = xballSport.Element("firstplayed");
-                Console.WriteLine("{0} {1} {2}", xname.Value, xteammembers.Value, xfirstplayed.Value);
 
-                //保存
-                xdoc.Save("SportXmlFile.xml");
+            while (true) {
+                Console.Write("名称：" );
+                name = Console.ReadLine();
+                Console.Write("漢字：");
+                kanji = Console.ReadLine();
+                Console.Write("人数：");
+                teammembers = Console.ReadLine();
+                Console.Write("起源：");
+                firstplayed = Console.ReadLine();
+
+                var element = new XElement("ballSport",
+                         new XElement("name", name, new XAttribute("kanji", kanji)),
+                         new XElement("teammembers", teammembers),
+                         new XElement("firstplayed", firstplayed)
+                         );
+                xElements.Add(element);//リストへの要素追加
+
+                Console.WriteLine();//改行
+                Console.WriteLine("追加【１】保存【２】");
+                Console.WriteLine(">");
+                nextFlag = int.Parse(Console.ReadLine());
+                if (nextFlag == 2) break;  //無限ループを抜ける
+                Console.WriteLine();    //改行
             }
+            xdoc.Root.Add(xElements);
+            xdoc.Save(newfile); //保存
+
 
         }
     }
