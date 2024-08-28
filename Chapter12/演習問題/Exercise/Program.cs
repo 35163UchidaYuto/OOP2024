@@ -92,9 +92,11 @@ namespace Exercise {
             };
 
             using (var stream = new FileStream(file, FileMode.Create, FileAccess.Write)) {
+
                 var options = new JsonSerializerOptions {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,//キー名のカスタム
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    WriteIndented = true,
             };
 
                 JsonSerializer.Serialize(stream, emps,options);
