@@ -63,7 +63,6 @@ namespace Exercise {
                 var serializer = new DataContractSerializer(emps.GetType());
                 serializer.WriteObject(writer, emps);
             }
-
         }
 
         private static void Exercise1_3(string file) {
