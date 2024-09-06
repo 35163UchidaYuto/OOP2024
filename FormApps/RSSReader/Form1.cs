@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace RSSReader {
+    
+
     public partial class Form1 : Form {
+        List<ItemData> items;
         public Form1() {
             InitializeComponent();
         }
@@ -21,20 +26,28 @@ namespace RSSReader {
                 var url = wc.OpenRead(tbRssUrl.Text);
                 var xdoc = XDocument.Load(url);
 
-                var xtitle = xdoc.Root.Descendants("item").
-                    Select(x => new {
-                    Title = (string)x.Attribute("title"),
-                    LinkArea = (string)x.Attribute("link"),
-                    });
-                    //Select(item=>item.Element("title").Value);
-                
-                foreach (var title in xtitle) {
-                    lbRssTitle.Items.Add(title);
+                items = xdoc.Root.Descendants("item").
+                   Select(item => new ItemData {
+                       Title = item.Element("title").Value,
+                       Link = item.Element("link").Value
+                   }).ToList();
 
+
+                foreach (var item in items) {
+                    lbRssTitle.Items.Add(item.Title);
                 }
 
-                
+
             }
+        }
+
+        private void lbRssTitle_SelectedIndexChanged(object sender, EventArgs e) {
+            webView21.NavigateToString(items[lbRssTitle.SelectedIndex].Link);
+        }
+        //データ格納用のクラス
+        public class ItemData {
+            public string Title { get; set; }
+            public string Link { get; set; }
         }
     }
 }

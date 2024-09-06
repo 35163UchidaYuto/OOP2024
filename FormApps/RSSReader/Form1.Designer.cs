@@ -26,19 +26,20 @@
             this.tbRssUrl = new System.Windows.Forms.TextBox();
             this.btGet = new System.Windows.Forms.Button();
             this.lbRssTitle = new System.Windows.Forms.ListBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.SuspendLayout();
             // 
             // tbRssUrl
             // 
             this.tbRssUrl.Location = new System.Drawing.Point(12, 25);
             this.tbRssUrl.Name = "tbRssUrl";
-            this.tbRssUrl.Size = new System.Drawing.Size(500, 19);
+            this.tbRssUrl.Size = new System.Drawing.Size(515, 19);
             this.tbRssUrl.TabIndex = 0;
             // 
             // btGet
             // 
-            this.btGet.Location = new System.Drawing.Point(518, 25);
+            this.btGet.Location = new System.Drawing.Point(533, 25);
             this.btGet.Name = "btGet";
             this.btGet.Size = new System.Drawing.Size(75, 23);
             this.btGet.TabIndex = 1;
@@ -52,29 +53,33 @@
             this.lbRssTitle.ItemHeight = 12;
             this.lbRssTitle.Location = new System.Drawing.Point(12, 50);
             this.lbRssTitle.Name = "lbRssTitle";
-            this.lbRssTitle.Size = new System.Drawing.Size(187, 556);
+            this.lbRssTitle.Size = new System.Drawing.Size(214, 556);
             this.lbRssTitle.TabIndex = 2;
+            this.lbRssTitle.SelectedIndexChanged += new System.EventHandler(this.lbRssTitle_SelectedIndexChanged);
             // 
-            // listBox1
+            // webView21
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(219, 51);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(572, 556);
-            this.listBox1.TabIndex = 3;
+            this.webView21.AllowExternalDrop = true;
+            this.webView21.CreationProperties = null;
+            this.webView21.DefaultBackgroundColor = System.Drawing.Color.White;
+            this.webView21.Location = new System.Drawing.Point(250, 54);
+            this.webView21.Name = "webView21";
+            this.webView21.Size = new System.Drawing.Size(664, 552);
+            this.webView21.TabIndex = 4;
+            this.webView21.ZoomFactor = 1D;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(926, 620);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.webView21);
             this.Controls.Add(this.lbRssTitle);
             this.Controls.Add(this.btGet);
             this.Controls.Add(this.tbRssUrl);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.webView21)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,7 +90,7 @@
         private System.Windows.Forms.TextBox tbRssUrl;
         private System.Windows.Forms.Button btGet;
         private System.Windows.Forms.ListBox lbRssTitle;
-        private System.Windows.Forms.ListBox listBox1;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
     }
 }
 
