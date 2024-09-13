@@ -25,7 +25,7 @@ namespace RSSReader {
 
         private void btGet_Click(object sender, EventArgs e) {
             using (var wc = new WebClient()) {
-                var url = wc.OpenRead(cb1.Text);
+                var url = wc.OpenRead(cbFavorite.Text);
                 var xdoc = XDocument.Load(url);
 
                 items = xdoc.Root.Descendants("item").
@@ -51,8 +51,8 @@ namespace RSSReader {
 
 
         private void AddName(string tbName) {
-            if (!cb1.Items.Contains(tbName))
-                cb1.Items.Add(tbName);
+            if (!cbFavorite.Items.Contains(tbName))
+                cbFavorite.Items.Add(tbName);
         }
 
 
@@ -61,9 +61,19 @@ namespace RSSReader {
             public string Title { get; set; }
             public string Link { get; set; }
         }
+        //コンボボックスへ登録
+        private void setCbFavorite(string favorite) {
+            if (!cbFavorite.Items.Contains(favorite))
+                cbFavorite.Items.Add(favorite);
+        }
 
         private void btRegistration_Click(object sender, EventArgs e) {
-            //AddName();
+            setCbFavorite(cbFavorite.Text);
+            inputItemsClear();
+        }
+        private void inputItemsClear() {
+            cbFavorite.Text = "";
+            tbName.Text = "";
         }
     }
 }

@@ -26,7 +26,7 @@
             this.btGet = new System.Windows.Forms.Button();
             this.lbRssTitle = new System.Windows.Forms.ListBox();
             this.webView2 = new Microsoft.Web.WebView2.WinForms.WebView2();
-            this.cb1 = new System.Windows.Forms.ComboBox();
+            this.cbFavorite = new System.Windows.Forms.ComboBox();
             this.tbName = new System.Windows.Forms.TextBox();
             this.btRegistration = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.webView2)).BeginInit();
@@ -64,13 +64,13 @@
             this.webView2.TabIndex = 4;
             this.webView2.ZoomFactor = 1D;
             // 
-            // cb1
+            // cbFavorite
             // 
-            this.cb1.FormattingEnabled = true;
-            this.cb1.Location = new System.Drawing.Point(33, 25);
-            this.cb1.Name = "cb1";
-            this.cb1.Size = new System.Drawing.Size(604, 20);
-            this.cb1.TabIndex = 5;
+            this.cbFavorite.FormattingEnabled = true;
+            this.cbFavorite.Location = new System.Drawing.Point(33, 25);
+            this.cbFavorite.Name = "cbFavorite";
+            this.cbFavorite.Size = new System.Drawing.Size(604, 20);
+            this.cbFavorite.TabIndex = 5;
             // 
             // tbName
             // 
@@ -96,7 +96,7 @@
             this.ClientSize = new System.Drawing.Size(926, 620);
             this.Controls.Add(this.btRegistration);
             this.Controls.Add(this.tbName);
-            this.Controls.Add(this.cb1);
+            this.Controls.Add(this.cbFavorite);
             this.Controls.Add(this.webView2);
             this.Controls.Add(this.lbRssTitle);
             this.Controls.Add(this.btGet);
@@ -112,7 +112,7 @@
         private System.Windows.Forms.Button btGet;
         private System.Windows.Forms.ListBox lbRssTitle;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView2;
-        private System.Windows.Forms.ComboBox cb1;
+        private System.Windows.Forms.ComboBox cbFavorite;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Button btRegistration;
     }
