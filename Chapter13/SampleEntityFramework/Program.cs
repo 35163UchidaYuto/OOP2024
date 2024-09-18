@@ -1,6 +1,7 @@
 ﻿using SampleEntityFramework.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +9,39 @@ using System.Threading.Tasks;
 namespace SampleEntityFramework {
     internal class Program {
         static void Main(string[] args) {
-            
+            InsertBooks();
             AddAuthors();
             AddBooks();
-            DisplayAllBooks2();
-            //InsertBooks();
+             DisplayAllBooks2();
+
+           Console.WriteLine();
+           Console.WriteLine("#1.3");
+           DisplayAllBooks3();
+
+            Console.WriteLine();
+            Console.WriteLine("#1.4");
+            Exercise1_4();
+
+           Console.WriteLine();
+           Console.WriteLine("#1.5");
+           Exercise1_5();
         }
+
+        //13-1-5
+        private static void Exercise1_5() {
+            using (var db = new BooksDbContext()) {
+                var authors = db.Authors.OrderByDescending(a => a.Birthday).ToList();
+                foreach (var author in authors) {
+                    Console.WriteLine("[0]",author.Name);
+                    foreach (var book in author.Books) {
+                        Console.WriteLine("[0] [1]",book.Title, book.PublishedYear);
+                    }
+                }
+            }
+        }
+
+
+
         //データの変更
         private static void UpdateBook() {
             using (var db = new BooksDbContext()) {
@@ -24,9 +52,9 @@ namespace SampleEntityFramework {
         }
         //データの削除
         private static void DeleteBook() {
-            using(var db = new BooksDbContext()) {
+            using (var db = new BooksDbContext()) {
                 var book = db.Books.SingleOrDefault(x => x.Id == 10);
-                if(book != null) {
+                if (book != null) {
                     db.Books.Remove(book);
                     db.SaveChanges();
                 }
@@ -53,12 +81,6 @@ namespace SampleEntityFramework {
                     Name = "宮沢賢治"
                 };
                 db.Authors.Add(author3);
-                var author4 = new Author {
-                    Birthday = new DateTime(1867, 2, 9),
-                    Gender = "M",
-                    Name = "夏目漱石"
-                };
-                db.Authors.Add(author4);
                 db.SaveChanges();
             }
         }
@@ -95,17 +117,52 @@ namespace SampleEntityFramework {
                 db.SaveChanges();
             }
         }
+        static void InsertBooks() {
+            using (var db = new BooksDbContext()) {
+                var book1 = new Book {
+                    Title = "坊ちゃん",
+                    PublishedYear = 2003,
+                    Author = new Author {
+                        Birthday = new DateTime(1867, 2, 9),
+                        Gender = "M",
+                        Name = "夏目漱石",
+                    }
+                };
+                db.Books.Add(book1);
+
+                var book2 = new Book {
+                    Title = "人間失格",
+                    PublishedYear = 1990,
+                    Author = new Author {
+                        Birthday = new DateTime(1909, 6, 19),
+                        Gender = "M",
+                        Name = "太宰治",
+                    }
+                };
+                db.Books.Add(book2);
+                db.SaveChanges();   //データベースを更新
+
+            }
+        }
 
         static void DisplayAllBooks() {
             var books = GetBooks();
             foreach (var book in books) {
-                Console.WriteLine($"{book.Title}{book.PublishedYear}" );
+                Console.WriteLine($"{book.Title}{book.PublishedYear}");
             }
             Console.ReadLine();
         }
+
+        static IEnumerable<Book> GetBooks() {
+            using (var db = new BooksDbContext()) {
+                return db.Books.Where(book => book.Author.Name.StartsWith("夏目"))
+                               .ToList();
+            }
+        }
+
         static void DisplayAllBooks2() {
-            using(var db = new BooksDbContext()) {
-                foreach(var book in db.Books.ToList()) {
+            using (var db = new BooksDbContext()) {
+                foreach (var book in db.Books.ToList()) {
                     Console.WriteLine("{0}{1}{2}({3:yyyy/MM/dd})",
                         book.Title, book.PublishedYear,
                         book.Author.Name, book.Author.Birthday
@@ -114,13 +171,31 @@ namespace SampleEntityFramework {
             }
         }
 
-
-        static IEnumerable<Book> GetBooks() {
+        //13-1-3
+        static void DisplayAllBooks3() {
             using (var db = new BooksDbContext()) {
-                return db.Books.Where(book => book.Author.Name.StartsWith("夏目"))
-                               .ToList();
+                var book = db.Books.Where(b => b.Title.Length == db.Books.Max(x => x.Title.Length));
+
+                foreach (var item in book) {
+                    Console.WriteLine(item.Title);
+                }
             }
         }
-       
+
+        //13-1-4
+        private static void Exercise1_4() {
+            using (var db = new BooksDbContext()) {
+                var books = db.Books.OrderBy(b => b.PublishedYear).Include(nameof(Author)).Take(3);
+
+                foreach (var book in db.Books) {
+                    Console.WriteLine("{0}{1}{2}",
+                        book.Title, book.PublishedYear,
+                        book.Author.Name
+                        );
+                }
+            }
+
+            
+        }
     }
 }
