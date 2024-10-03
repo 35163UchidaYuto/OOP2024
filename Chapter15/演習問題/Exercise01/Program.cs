@@ -64,19 +64,64 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_5() {
-            
+            var query = Library.Books.Where(b => b.PublishedYear == 2016)
+                .Join(Library.Categories, 
+                book => book.CategoryId,
+                category => category.Id,
+                (book, category) => category.Name).Distinct();
+
+            foreach(var item in query) {
+                Console.WriteLine(item);
+            }
         }
 
         private static void Exercise1_6() {
-            
+            var query = Library.Books.Join(Library.Categories,
+               book => book.CategoryId,
+               category => category.Id,
+               (book, category) => new {
+                   book.Title,
+                   CategoryName = category.Name,
+               })
+                .GroupBy(x => x.CategoryName)
+                .OrderBy(x => x.Key);
+
+            foreach(var guroup in query) {
+                Console.WriteLine("#{0}",guroup.Key);
+                foreach (var item in guroup) {
+                    Console.WriteLine("#{0}",item.Title);
+                }
+            }
         }
 
         private static void Exercise1_7() {
-            
+            var CategorysId = Library.Categories.Single(c => c.Name == "Development").Id;
+            var query = Library.Books.Where(b => b.CategoryId == CategorysId)
+                                      .GroupBy(b=>b.PublishedYear)
+                                      .OrderBy(b=>b.Key);
+
+            foreach (var guroup in query) {
+                Console.WriteLine("#{0}", guroup.Key);
+                foreach (var item in guroup) {
+                    Console.WriteLine("#{0}", item.Title);
+                }
+            }
         }
 
         private static void Exercise1_8() {
-            
+            var query = Library.Categories
+                               .GroupJoin(Library.Books,
+                                          c => c.Id,
+                                          b => b.CategoryId,
+                                         (c, b) => new {
+                                             categoryName = c.Name,
+                                             Count = b.Count()
+                                         })
+                               .Where(x => x.Count >= 4);
+
+            foreach (var guroup in query) {
+                Console.WriteLine(guroup.categoryName + "("+guroup.Count+")");
+            }
         }
     }
 }
