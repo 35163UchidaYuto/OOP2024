@@ -20,13 +20,14 @@ namespace ColorChecker {
     /// </summary>
     public partial class MainWindow : Window {
         MyColor currentColor ;//現在設定している色情報
+        MyColor[] colorsTable;//色のデータ
 
 
         public MainWindow() {
             InitializeComponent();
             //aチャンネルの初期値を設定　（起動時すぐにストックボタンが押された場合の対応）
             currentColor.Color = Color.FromArgb(255,0,0,0);
-            DataContext = GetColorList();
+            DataContext = colorsTable = GetColorList();
         }
         private MyColor[] GetColorList() {
             return typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static)
@@ -38,10 +39,21 @@ namespace ColorChecker {
         //スライドを動かすと呼ばれるイベントハンドラ
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             currentColor.Color = Color.FromRgb((byte)rSlider.Value, (byte)gSlider.Value, (byte)bSlider.Value);
-            currentColor.Name = GetColorList().Where(c =>c.Equals(currentColor.Color)).Select(Color.FromArgb).ToArray;
+            //currentColor.Name = GetColorList().Where(c =>c.Color.Equals(currentColor.Color)).Select(x=>x.Name).FirstOrDefault();
+
+            int i;
+            for(i = 0; i < colorsTable.Length; i++) {
+                if (colorsTable[i].Color.Equals(currentColor.Color)) {
+                    currentColor.Name = colorsTable[i].Name;
+                    break;
+                }
+            }
+            colorSelectComboBox.SelectedIndex = i;                      
             colorArea.Background = new SolidColorBrush(currentColor.Color);
+
         }
 
+        //既に登録されている場合は登録しない
         private void stockButton_Click(object sender, RoutedEventArgs e) {
             if (!stockList.Items.Contains((MyColor)currentColor)) {
             stockList.Items.Insert(0, currentColor);
