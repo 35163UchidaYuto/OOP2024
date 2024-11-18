@@ -41,9 +41,22 @@ namespace CustomerApp {
             }
         }
 
-        private void ReadButton_Click(object sender, RoutedEventArgs e) {
-            //ReadDatabase();
-        }
+        private void UpgateButton_Click(object sender, RoutedEventArgs e) {
+
+            var Item = CustomerListView.SelectedItem as Customer;
+            if (Item == null) {
+                return;
+            }
+            Item.Name = NameTextBox.Text;
+            Item.Phone = PhoneTextBox.Text;
+            Item.Address = AddressTextBox.Text;
+            
+            using (var connection = new SQLiteConnection(App.datebasePass)) {
+                connection.CreateTable<Customer>();
+                connection.Update(Item);
+                ReadDatabase();
+            }
+            }
 
         private void ReadDatabase() {
             using (var connection = new SQLiteConnection(App.datebasePass)) {

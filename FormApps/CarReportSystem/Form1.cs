@@ -41,7 +41,7 @@ namespace CarReportSystem {
             setCbAuthor(cbAuthor.Text);
 
             dgvCarReport.ClearSelection();  //セレクションを外す
-            inputItemsAllClear();   //入力項目をすべてクリア
+            inputItemsAllClear();    //入力項目をすべてクリア
         }
         //入力項目をすべてクリア
         private void inputItemsAllClear() {
