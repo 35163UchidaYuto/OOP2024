@@ -33,11 +33,10 @@ namespace CustomerApp {
                 Address = AddressTextBox.Text,
             };
 
-            using(var connection = new SQLiteConnection(App.datebasePass)) {
+            using (var connection = new SQLiteConnection(App.datebasePass)) {
                 connection.CreateTable<Customer>();
                 connection.Insert(customer);
                 ReadDatabase();//ListView表示
-
             }
         }
 
@@ -45,40 +44,41 @@ namespace CustomerApp {
 
             var Item = CustomerListView.SelectedItem as Customer;
             if (Item == null) {
+                MessageBox.Show("行を決めてください");
                 return;
             }
             Item.Name = NameTextBox.Text;
             Item.Phone = PhoneTextBox.Text;
             Item.Address = AddressTextBox.Text;
-            
+
             using (var connection = new SQLiteConnection(App.datebasePass)) {
                 connection.CreateTable<Customer>();
                 connection.Update(Item);
                 ReadDatabase();
             }
-            }
+        }
 
         private void ReadDatabase() {
             using (var connection = new SQLiteConnection(App.datebasePass)) {
                 connection.CreateTable<Customer>();
-                var customers = connection.Table<Customer>().ToList();
+                 _customers = connection.Table<Customer>().ToList();
 
-                CustomerListView.ItemsSource = customers;
+                CustomerListView.ItemsSource = _customers;
             }
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            var filterList = _customers.Where(x=>x.Name.Contains(SearchTextBox.Text)).ToList();
+            var filterList = _customers.Where(x => x.Name.Contains(SearchTextBox.Text)).ToList();
             CustomerListView.ItemsSource = filterList;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
             var Item = CustomerListView.SelectedItem as Customer;
-            if(Item == null) {
+            if (Item == null) {
                 MessageBox.Show("削除する行を決めてください");
                 return;
             }
-            using(var connection = new SQLiteConnection(App.datebasePass)) {
+            using (var connection = new SQLiteConnection(App.datebasePass)) {
                 connection.CreateTable<Customer>();
                 connection.Delete(Item);
 
@@ -86,6 +86,11 @@ namespace CustomerApp {
                 ReadDatabase();//ListView表示
             }
 
+        }
+        private void CustomerListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            NameTextBox.Text = _customers[CustomerListView.SelectedIndex].Name;
+            PhoneTextBox.Text = _customers[CustomerListView.SelectedIndex].Phone;
+            AddressTextBox.Text = _customers[CustomerListView.SelectedIndex].Address;
         }
     }
 }
