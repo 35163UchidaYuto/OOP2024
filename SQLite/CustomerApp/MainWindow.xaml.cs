@@ -4,153 +4,167 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
-
-
-
 namespace CustomerApp {
-    /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
-    /// </summary>
     public partial class MainWindow : Window {
         List<Customer> _customers;
-        
 
         public MainWindow() {
             InitializeComponent();
+            InitializeDatabase();
             ReadDatabase();
-
         }
 
-        BitmapImage bitmap = new BitmapImage();
-
-        public void Convart() {
-            Bitmap bmp = new Bitmap(bitmap);
-            MemoryStream ms = new MemoryStream();
-            bmp.Save(ms, ImageFormat.Jpeg);
-            byte[] binaryData = ms.ToArray();
+        private void InitializeDatabase() {
+            using (var connection = new SQLiteConnection(App.datebasePass)) {
+                connection.CreateTable<Customer>();
+            }
         }
 
-
-
-        //保存
+        // 保存処理
         private void RegistButton_Click(object sender, RoutedEventArgs e) {
+            byte[] ShowImage = this.ShowImage.Source != null
+                ? ConvertImageToByteArray((BitmapImage)this.ShowImage.Source)
+                : null;
             var customer = new Customer() {
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
                 Address = AddressTextBox.Text,
+                Picture = ShowImage
             };
 
-            using (var connection = new SQLiteConnection(App.datebasePass)) {
-                connection.CreateTable<Customer>();
-                connection.Insert(customer);
-                ReadDatabase();//ListView表示
-                ClearText();
-            }
-        }
-        //修正
-        private void UpgateButton_Click(object sender, RoutedEventArgs e) {
-
-            var Item = CustomerListView.SelectedItem as Customer;
-            if (Item == null) {
-                MessageBox.Show("行を決めてください");
+            if (Name == null) {
+                MessageBox.Show("名前を入力してください");
                 return;
             }
-            Item.Name = NameTextBox.Text;
-            Item.Phone = PhoneTextBox.Text;
-            Item.Address = AddressTextBox.Text;
+            
+
 
             using (var connection = new SQLiteConnection(App.datebasePass)) {
-                connection.CreateTable<Customer>();
-                connection.Update(Item);
-                ReadDatabase();
-                ClearText();
+                connection.Insert(customer);
+            }
+
+            ReadDatabase();
+            ClearText();
+        }
+
+        // BitmapImage を byte[] に変換
+        private byte[] ConvertImageToByteArray(BitmapImage bitmapImage) {
+            using (var memoryStream = new MemoryStream()) {
+                BitmapEncoder encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                encoder.Save(memoryStream);
+                return memoryStream.ToArray();
             }
         }
-        //テキストボックス内クリア
+
+        // byte[] を BitmapImage に変換
+        private BitmapImage ConvertByteArrayToImage(byte[] imageData) {
+            if (imageData == null || imageData.Length == 0) return null;
+
+            using (var memoryStream = new MemoryStream(imageData)) {
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memoryStream;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                return bitmapImage;
+            }
+        }
+
+        // 修正処理
+        private void UpgateButton_Click(object sender, RoutedEventArgs e) {
+            var item = CustomerListView.SelectedItem as Customer;
+            if (item == null) {
+                MessageBox.Show("行を選択してください");
+                return;
+            }
+
+            item.Name = NameTextBox.Text;
+            item.Phone = PhoneTextBox.Text;
+            item.Address = AddressTextBox.Text;
+
+            using (var connection = new SQLiteConnection(App.datebasePass)) {
+                connection.Update(item);
+            }
+
+            ReadDatabase();
+            ClearText();
+        }
+
+        // テキストボックスをクリア
         private void ClearText() {
-            var customer = new Customer() {
-                Name = NameTextBox.Text,
-                Phone = PhoneTextBox.Text,
-                Address = AddressTextBox.Text,
-            };
             NameTextBox.Clear();
             PhoneTextBox.Clear();
             AddressTextBox.Clear();
+            ShowImage.Source = null;
         }
 
-        //読み込み
+        // データベース読み込み
         private void ReadDatabase() {
             using (var connection = new SQLiteConnection(App.datebasePass)) {
-                connection.CreateTable<Customer>();
                 _customers = connection.Table<Customer>().ToList();
-
-                CustomerListView.ItemsSource = _customers;
             }
+
+            CustomerListView.ItemsSource = _customers;
         }
 
+        // 検索
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            var filterList = _customers.Where(x => x.Name.Contains(SearchTextBox.Text)).ToList();
-            CustomerListView.ItemsSource = filterList;
+            var filteredList = _customers.Where(x => x.Name.Contains(SearchTextBox.Text)).ToList();
+            CustomerListView.ItemsSource = filteredList;
         }
-        //削除
+
+        // 削除
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
-            var Item = CustomerListView.SelectedItem as Customer;
-            if (Item == null) {
-                MessageBox.Show("削除する行を決めてください");
+            var item = CustomerListView.SelectedItem as Customer;
+            if (item == null) {
+                MessageBox.Show("削除する行を選択してください");
                 return;
             }
+
             using (var connection = new SQLiteConnection(App.datebasePass)) {
-                connection.CreateTable<Customer>();
-                connection.Delete(Item);
-
-
-                ReadDatabase();//ListView表示
+                connection.Delete(item);
             }
 
-        }
-        private void CustomerListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (CustomerListView.SelectedIndex != -1) {
-                NameTextBox.Text = _customers[CustomerListView.SelectedIndex].Name;
-                PhoneTextBox.Text = _customers[CustomerListView.SelectedIndex].Phone;
-                AddressTextBox.Text = _customers[CustomerListView.SelectedIndex].Address;
-            }
-
+            ReadDatabase();
         }
 
-
-
+        // 画像を開く
         private void OpenButton_Click(object sender, RoutedEventArgs e) {
-            OpenFileDialog openFileDialog = new OpenFileDialog(); // OpenFileDialogのインスタンス化
+            OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
             if (openFileDialog.ShowDialog() == true) {
-
-                BitmapImage bitmap = new BitmapImage(new Uri(openFileDialog.SafeFileName));
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(openFileDialog.FileName);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
                 ShowImage.Source = bitmap;
-
-
             }
         }
 
-
-
+        // 画像をクリア
         private void ClearButton_Click(object sender, RoutedEventArgs e) {
             ShowImage.Source = null;
         }
+
+        // 選択された顧客の画像を表示
+        private void CustomerListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (CustomerListView.SelectedItem is Customer selectedCustomer) {
+                NameTextBox.Text = selectedCustomer.Name;
+                PhoneTextBox.Text = selectedCustomer.Phone;
+                AddressTextBox.Text = selectedCustomer.Address;
+                ShowImage.Source = selectedCustomer.Picture != null
+                    ? ConvertByteArrayToImage(selectedCustomer.Picture)
+                    : null;
+            }
+        }
     }
+
 }
