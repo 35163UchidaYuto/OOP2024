@@ -5,54 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="300">
-    <Grid>
-        <StackPanel Margin="10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="8*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock  Text="名前" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
-                <TextBox  x:Name="NameTextBox"  Grid.Row="0" Grid.Column="1" Margin="2"/>
-                <TextBlock   Text="電話番号" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox  x:Name="PhoneTextBox" Grid.Row="1" Grid.Column="1" Margin="2"/>
-                <TextBlock   Text="住所" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox  x:Name="AddressTextBox" Grid.Row="2" Grid.Column="1" Margin="2"/>
+        Title="MainWindow" Height="810" Width="800">
+	<Grid>
+		<StackPanel Margin="10">
+			<Grid Margin="2">
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="8*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="名前" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize ="20"/>
+				<TextBox x:Name="NameTextBox"  Grid.Row="0" Grid.Column="1" Margin="2"/>
+				<TextBlock Text="電話番号" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize ="20"/>
+				<TextBox x:Name="PhoneTextBox"  Grid.Row="1" Grid.Column="1" Margin="2"/>
+				<TextBlock Text="住所" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize ="20"/>
+				<TextBox x:Name="AddressTextBox"  Grid.Row="2" Grid.Column="1" Margin="2"/>
+				<TextBlock Text="画像" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" FontSize ="30"/>
+				<Button x:Name="PicSaveButton" Grid.Row="3" Grid.Column="0" Content="選択" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" Click="PicSaveButton_Click" Width="60" FontSize="18"/>
+				<Button x:Name="PicDeleteButton" Grid.Row="3" Grid.Column="0" Content="削除" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" Click="PicDeleteButton_Click" Width="50" FontSize="13"/>
+				<Image x:Name="CustomerImage" Grid.Row="3" Grid.Column="1" Height="100" Width="350"  Margin="2" HorizontalAlignment="Right"/>
+			</Grid>
 
+			<Grid Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Button Content="登録" x:Name="SaveButton" Click="SaveButton_Click"  Grid.Column="0" Margin="2" Width="100" FontSize="20" HorizontalAlignment="Center"/>
+				<Button Content="削除" x:Name="DeleteButton" Click="DeleteButton_Click" Grid.Column="1" Margin="2" Width="100" FontSize="20" HorizontalAlignment="Center" />
+				<Button Content="更新" x:Name="UpdateButton" Click="UpdateButton_Click" Grid.Column="2" Margin="2" Width="100" FontSize="20" HorizontalAlignment="Center" />
+			</Grid>
 
-            </Grid>
-
-            <Grid>
-                <Image x:Name="ShowImage" Height="100" Width="100" Margin="5" HorizontalAlignment="Right"/>
-                <Button Content="開く" x:Name="OpenButton" Click="OpenButton_Click" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
-                <Button Content="クリア" x:Name="ClearButton" Click="ClearButton_Click"  Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10"/>
-            </Grid>
-
-            <Button Content="Regist" x:Name="RegistButton" Click="RegistButton_Click" Margin="2"/>
-            <Button Content="Upgate" x:Name="UpgateButton" Click="UpgateButton_Click" Margin="2"/>
-            <Button  Content="Delete" x:Name="DeleteButton" Click="DeleteButton_Click" Margin="2">
-            </Button>
-            <TextBox x:Name="SearchTextBox" FontSize="20" TextChanged="SearchTextBox_TextChanged"/>
-            <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="300" SelectionChanged="CustomerListView_SelectionChanged">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Id}"/>
-                            <TextBlock Text="{Binding Name}" FontSize="20"/>
-                            <TextBlock Text="{Binding Phone}" Foreground="Blue"/>
-                            <TextBlock Text="{Binding Address}" Foreground="Red"/>
-                            
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
-    </Grid>
+			<TextBox x:Name="SearchTextBox" Margin="10" FontSize="20" TextChanged="SearchTextBox_TextChanged"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="4*"/>
+					<ColumnDefinition Width="6*"/>
+					<ColumnDefinition Width="6*"/>
+					<ColumnDefinition Width="4*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="名前" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+				<TextBlock Text="電話番号" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+				<TextBlock Text="住所" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+				<TextBlock Text="画像" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+			</Grid>
+			<ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="450" SelectionChanged="CustomerListView_SelectionChanged">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Grid Width="750">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="3*"/>
+									<ColumnDefinition Width="6*"/>
+									<ColumnDefinition Width="9*"/>
+									<ColumnDefinition Width="3*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="{Binding Name}" Grid.Column="0" Margin="2" HorizontalAlignment="Center" FontSize="20" />
+								<TextBlock Text="{Binding Phone}" Foreground ="Blue" Grid.Column="1" Margin="2" HorizontalAlignment="Center" FontSize="20"/>
+								<TextBlock Text="{Binding Address}" Foreground="Blue"  Grid.Column="2" Margin="2" HorizontalAlignment="Center" FontSize="20"/>
+								<Image Source="{Binding Image}" Height="60"  Grid.Column="3" Margin="2" HorizontalAlignment="Center"/>
+							</Grid>
+						</StackPanel>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackPanel>
+	</Grid>
 </Window>
